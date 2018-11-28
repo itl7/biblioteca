@@ -23,10 +23,9 @@ class App
         define('TITLE'          , "Sistema de Biblioteca");
         define('DB_HOST'        , "localhost");
         define('DB_USER'        , "root");
-        define('DB_PASSWORD'    , "Mamita@123");
+        define('DB_PASSWORD'    , "");
         define('DB_NAME'        , "biblioteca");
         define('DB_DRIVER'      , "mysql");
-
 
         $this->url();
     }
