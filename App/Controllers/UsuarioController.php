@@ -8,6 +8,18 @@ use App\Models\Entidades\Usuario;
 
 class UsuarioController extends Controller
 {
+    public function index()
+    {
+        $usuarioDAO = new UsuarioDAO();
+        $usuario = $usuarioDAO->lista();
+        
+        $this->setViewParam('usuarios',$usuario);
+    
+        $this->render('/usuario/list');
+    
+        Sessao::limpaFormulario();
+        Sessao::limpaMensagem();
+    }
     public function criar()
     {
         $this->render('/usuario/criar');
@@ -92,10 +104,42 @@ class UsuarioController extends Controller
             $this->redirect('/');
         }
     }
-
-    public function index()
+    public function exclusao($params)
     {
-        $this->redirect('/usuario/criar');
+        $id = $params[0];
+
+        $UsuarioDAO = new UsuarioDAO();
+        
+        $Usuario = $UsuarioDAO->lista($id);
+        
+        if(!$Usuario){
+            Sessao::gravaMensagem("Usuario inexistente");
+            $this->redirect('/usuario');
+        }
+        
+        self::setViewParam('usuario',$Usuario);
+
+        $this->render('/usuario/exclusao');
+
+        Sessao::limpaMensagem();
+
+    }
+
+    public function excluir()
+    {
+        $Usuario = new Usuario();
+        $Usuario->setId($_POST['id']);
+
+        $UsuarioDAO = new UsuarioDAO();
+
+        if(!$UsuarioDAO->excluir($Usuario)){
+            Sessao::gravaMensagem("Usuario inexistente");
+            $this->redirect('/Usuario');
+        }
+
+        Sessao::gravaMensagem("Usuario excluido com sucesso!");
+
+        $this->redirect('/usuario');
     }
 
 }

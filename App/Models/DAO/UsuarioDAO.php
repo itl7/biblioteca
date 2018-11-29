@@ -96,4 +96,16 @@ class UsuarioDAO extends BaseDAO
             throw new \Exception("Erro na gravação de dados.", 500);
         }
     }
+    public function excluir(Usuario $usuario)
+    {
+        try {
+            $id = $usuario->getId();
+
+            return $this->delete('usuario',"id = $id");
+
+        }catch (Exception $e){
+
+            throw new \Exception("Erro ao excluir", 500);
+        }
+    }
 }
